@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Infrastructure.Data;
+using Core.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -6,16 +9,22 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class AnnouncementsController : ControllerBase
     {
-        [HttpGet]
-        public string GetAnnouncements()
+        private readonly PlatformContext _context;
+
+        public AnnouncementsController(PlatformContext context)
         {
-            return "this will be a list of announcements";
+            _context = context;
+        }
+        [HttpGet]
+        public async Task<ActionResult<List<Announce>>> GetAnnouncements()
+        {
+            return await _context.Announces.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public string GetAnnounce(int id)
+        public async Task<ActionResult<Announce>> GetAnnounce(int id)
         {
-            return "singe announce";
+            return await _context.Announces.FindAsync(id);
         }
     }
 }
