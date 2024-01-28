@@ -9,6 +9,7 @@ namespace Infrastructure.Data
         {
         }
 
-        public  DbSet<Announce> Announces { get; set; }
+        public DbSet<Announce> Announces { get; set; }
+        public DbSet<AnnounceType> AnnounceTypes { get; set; }
     }
 }
