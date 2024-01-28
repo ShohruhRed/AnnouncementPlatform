@@ -9,7 +9,7 @@ namespace Core.Interfaces
 {
     public interface IAnnounceRepository
     {
-        Task<Announce> GetAnnounceById(int id);
+        Task<Announce> GetAnnounceByIdAsync(int id);
         Task<IReadOnlyList<Announce>> GetAnnouncesAsync();
     }
 }

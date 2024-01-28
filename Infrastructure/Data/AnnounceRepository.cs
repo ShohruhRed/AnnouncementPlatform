@@ -1,5 +1,6 @@
 ﻿using Core.Entities;
 using Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +11,20 @@ namespace Infrastructure.Data
 {
     public class AnnounceRepository : IAnnounceRepository
     {
-        public Task<Announce> GetAnnounceById(int id)
+        private readonly PlatformContext _context;
+
+        public AnnounceRepository(PlatformContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task<Announce> GetAnnounceByIdAsync(int id)
+        {
+            return await _context.Announces.FindAsync(id);
         }
 
-        public Task<IReadOnlyList<Announce>> GetAnnouncesAsync()
+        public async Task<IReadOnlyList<Announce>> GetAnnouncesAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Announces.ToListAsync();
         }
     }
 }

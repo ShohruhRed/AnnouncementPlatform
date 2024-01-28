@@ -2,6 +2,7 @@
 using Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Core.Interfaces;
 
 namespace API.Controllers
 {
@@ -9,22 +10,24 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class AnnouncementsController : ControllerBase
     {
-        private readonly PlatformContext _context;
+        private readonly IAnnounceRepository _repo;
 
-        public AnnouncementsController(PlatformContext context)
+        public AnnouncementsController(IAnnounceRepository repo)
         {
-            _context = context;
+            _repo = repo;
         }
         [HttpGet]
         public async Task<ActionResult<List<Announce>>> GetAnnouncements()
         {
-            return await _context.Announces.ToListAsync();
+            var announce = await _repo.GetAnnouncesAsync();
+
+            return Ok(announce);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Announce>> GetAnnounce(int id)
         {
-            return await _context.Announces.FindAsync(id);
+            return await _repo.GetAnnounceByIdAsync(id);
         }
     }
 }
